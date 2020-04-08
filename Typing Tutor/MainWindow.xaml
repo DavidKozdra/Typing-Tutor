@@ -24,7 +24,7 @@
             <ListBox Background="Gainsboro" x:Name="FileCollection" PreviewMouseDoubleClick="FileSelection" Height="180" Width="334"  />
         </ScrollViewer>
 
-        <Button Style="{StaticResource Buttons}" Panel.ZIndex="6"  x:Name="Custom" Content="Custom " Click="Custombtn_Click" Margin="10,232,22.5,76" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="4"/>
+        <Button Style="{StaticResource Buttons}" Panel.ZIndex="6"  x:Name="Custom" Content="Add " Click="Custombtn_Click" Margin="10,232,22.5,76" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="4"/>
         <Button Style="{StaticResource Buttons}" Panel.ZIndex="6" x:Name="StartButton" Content="Start" Click="StartButton_Click" Margin="10,274,22,5" Grid.ColumnSpan="4"/>
         <TextBox Background="Gainsboro" x:Name="Title" Panel.ZIndex="7" TextAlignment="Center" Text="Typing Tutor" Margin="0,-56,62,345" FontSize="40" Grid.ColumnSpan="2" Grid.Column="2"/>
         <Button  Style="{StaticResource Buttons}"  Panel.ZIndex="6" x:Name="MainMenu" Content="MainMenu" Click="MainMenu_Click" Margin="22,-47,238,355" Grid.ColumnSpan="2" Grid.Column="2" />

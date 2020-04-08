@@ -17,20 +17,19 @@ namespace Typing_Tutor
         private Random rnd = new Random(); // set rand here to avoid overflow
         public string TargetText = ""; // test that must be typed in
         public int CurrentIndex = 0, Errors, MAX; // where we are in target text, how many we have wrong, Max needed to continue
-        public string[] Files = { "C:/Users/David/source/repos/Typing Tutor/Typing Tutor/Text/ch2.txt", "C:/Users/David/source/repos/Typing Tutor/Typing Tutor/Text/ch3.txt", "C:/Users/David/source/repos/Typing Tutor/Typing Tutor/Text/ch4.txt", "C:/Users/David/source/repos/Typing Tutor/Typing Tutor/Text/ch5.txt" };
+        public string[] Files = { ""};
         public Stopwatch Timer = new Stopwatch(); //Timer that counts how long time has pasted
         private int RandIgnore; // number to ingnore durring new file index randimazation so we do not repeat
 
         public MainWindow()
         {
             InitializeComponent();
-          
-            foreach (var item in Files)
+            foreach (string item in Files)
             {
                 FileCollection.Items.Add(item); // files into collections
             }
-            RandIgnore = Rand(FileCollection.Items.Count); //set a new file index
-            FormatFile(FileCollection.Items[RandIgnore].ToString()); //format a random file and set it
+           // RandIgnore = Rand(FileCollection.Items.Count); //set a new file index
+            //FormatFile(FileCollection.Items[RandIgnore].ToString()); //format a random file and set it
             Output.Text = TargetText; // make it the set output
         }
 
@@ -134,7 +133,6 @@ namespace Typing_Tutor
                 Output.Text = TargetText;
                 FileCollection.Items.Add(openFileDialog.FileName);
             }
-            Score.Text = "Right: " + CurrentIndex + "  Errors: " + Errors;
         }
 
         private void GetTyped(object sender, KeyEventArgs e)
