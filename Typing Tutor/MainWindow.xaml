@@ -5,40 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Typing_Tutor"
         mc:Ignorable="d"
-        Title="Typing Tutor" Height="450" Width="400" KeyDown="GetTyped">
+        Title="Typing Tutor" Height="450" Width="400" KeyDown="GetTyped" Background="DarkGray">
     <Window.Resources>
         <Style x:Key="Buttons" TargetType="Button">
             <Setter Property="Background" Value="MediumPurple" />
         </Style>
     </Window.Resources>
-
-    <Grid Margin="10,53,2,16">
+    <Grid Margin="10,53,2,16" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition/>
             <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Button  Style="{StaticResource Buttons}"  Panel.ZIndex="6" x:Name="MainMenu" Content="MainMenu" Click="MainMenu_Click" Margin="5,-47,71,355" Grid.ColumnSpan="3" />
+        <TextBlock x:Name="dis" Panel.ZIndex="7" Text="Prompts to type" Margin="21,5,250,318" Grid.ColumnSpan="4">
+        </TextBlock>
+        <ScrollViewer Panel.ZIndex="6" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="4" Margin="0,0,22,118">
+            <ListBox Background="Gainsboro" x:Name="FileCollection" PreviewMouseDoubleClick="FileSelection" Height="180" Width="334"  />
+        </ScrollViewer>
 
-        <Button  Style="{StaticResource Buttons}"  Panel.ZIndex="6" x:Name="Done" Content="Done" Click="Done_Click" Margin="16,-47,18,355" Grid.Column="2" />
-        <Button Style="{StaticResource Buttons}" Visibility="Hidden" x:Name="Custom" Content="Custom " Click="Custombtn_Click" Margin="78,-47,181,355" Grid.Column="2" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="2"/>
-        <TextBlock Margin="58,-52,0,355" Panel.ZIndex="4" x:Name="Score" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="15" Width="181" Grid.Column="3" />
+        <Button Style="{StaticResource Buttons}" Panel.ZIndex="6"  x:Name="Custom" Content="Custom " Click="Custombtn_Click" Margin="10,232,22.5,76" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="4"/>
+        <Button Style="{StaticResource Buttons}" Panel.ZIndex="6" x:Name="StartButton" Content="Start" Click="StartButton_Click" Margin="10,274,22,5" Grid.ColumnSpan="4"/>
+        <TextBox Background="Gainsboro" x:Name="Title" Panel.ZIndex="7" TextAlignment="Center" Text="Typing Tutor" Margin="0,-56,62,345" FontSize="40" Grid.ColumnSpan="2" Grid.Column="2"/>
+        <Button  Style="{StaticResource Buttons}"  Panel.ZIndex="6" x:Name="MainMenu" Content="MainMenu" Click="MainMenu_Click" Margin="22,-47,238,355" Grid.ColumnSpan="2" Grid.Column="2" />
 
-        <Border  CornerRadius="6" BorderBrush="Blue"  BorderThickness="4" Margin="0,0,10,0" Grid.ColumnSpan="4">
+        <Button  Style="{StaticResource Buttons}"  Panel.ZIndex="6" x:Name="Done" Content="Done" Click="Done_Click" Margin="58,-47,181,355" Grid.Column="3" />
+
+        <TextBlock Margin="160,-52,0,355" Panel.ZIndex="4" x:Name="Score" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="15" Width="114" Grid.Column="3" />
+
+        <Border  CornerRadius="6" BorderBrush="Purple"  BorderThickness="4" Margin="0,0,10,0" Grid.ColumnSpan="4">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="0,0,36,0" Orientation="Vertical">
-                    <TextBlock x:Name="Output" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="30" Height="224" />
+                    <TextBlock Visibility="Hidden" x:Name="Output" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="30" Height="224" />
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
-        <DockPanel Panel.ZIndex="4" x:Name="DonePanel"  Visibility="Hidden" Grid.ColumnSpan="4">
-            <TextBox  x:Name="DoneText"  Text="Congradulations" Margin="0,73,0,121">
+        <DockPanel Panel.ZIndex="7" x:Name="DonePanel"  Visibility="Hidden" Grid.ColumnSpan="4">
+            <TextBox  x:Name="DoneText" Foreground="DarkSlateGray" Text="Congradulations" Margin="0,73,0,121">
             </TextBox>
 
-            <Button Style="{StaticResource Buttons}" x:Name="NextButton" Content="Next" Click="NextButton_Click" Margin="0,148,0,169" Width="252">
+            <Button Style="{StaticResource Buttons}" x:Name="NextButton" Content="Next" Click="NextButton_Click" Margin="0,148,0,141" Width="112">
             </Button>
         </DockPanel>
+
     </Grid>
 </Window>
