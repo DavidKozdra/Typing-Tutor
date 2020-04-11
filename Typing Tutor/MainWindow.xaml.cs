@@ -6,28 +6,100 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Typing_Tutor;
 
 namespace Typing_Tutor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    ///
+
+        	public static class FileManager
+	{
+        private static readonly string PD="Resources";
+		private static string PreferancesLocation = $"{PD}/Preferances.txt";
+		private static char DataSeperator = '`';
+		public static void Create(params string[] Data)
+		{
+            if(!Directory.Exists(PD)){
+                Directory.CreateDirectory(PD);
+            }
+
+			var content = "";
+            void Add(string item) {
+                content += $"{item}{DataSeperator}";
+            }
+			foreach (var item in Data)
+			{
+				 Add(item);
+			}
+            if(File.Exists(PreferancesLocation)){
+                foreach (var item in Load()) Add(item);
+            }
+			System.IO.File.WriteAllText(PreferancesLocation,content);
+		}
+		public static string[] Load()
+		{
+			if (!File.Exists(PreferancesLocation))
+			{
+				return null;
+			}
+            string [] Data={};
+
+            void Add(string item) {
+                if(Data == null || Data.Length<1){
+                    Data = new string[]{item};
+                }
+                else{
+                    string[] OldData = Data;
+                    Data = new string[OldData.Length+1];
+                  for (int i = 0; i < OldData.Length; i++){
+                    Data[i] = OldData[i];
+	              }
+                  Data[Data.Length-1] = item;
+                }
+            }
+            var Content =File.ReadAllText(PreferancesLocation).Split(DataSeperator);
+            foreach (var item in Content)
+	        {
+                var _Data="";
+                for (int i = 0; i < item.Length; i++)
+			    {
+                    var _char =item[i];
+                    if(_char==DataSeperator){
+                    continue;
+                    
+                    }
+                    _Data +=_char;
+			    }
+                Add(_Data);
+	        }
+
+			return Data ;
+		}
+	}
     public partial class MainWindow : Window
     {
         private Random rnd = new Random(); // set rand here to avoid overflow
-        public string TargetText = ""; // test that must be typed in
-        public int CurrentIndex = 0, Errors, MAX; // where we are in target text, how many we have wrong, Max needed to continue
-        public string[] Files = { ""};
+        public string TargetText; // test that must be typed in
+        public int CurrentIndex, Errors, MAX; // where we are in target text, how many we have wrong, Max needed to continue
+        public string[] Files;
+
         public Stopwatch Timer = new Stopwatch(); //Timer that counts how long time has pasted
         private int RandIgnore; // number to ingnore durring new file index randimazation so we do not repeat
 
         public MainWindow()
         {
             InitializeComponent();
+            Files = FileManager.Load();
+            if(Files !=null){
             foreach (string item in Files)
             {
                 FileCollection.Items.Add(item); // files into collections
             }
+            }
+
            // RandIgnore = Rand(FileCollection.Items.Count); //set a new file index
             //FormatFile(FileCollection.Items[RandIgnore].ToString()); //format a random file and set it
             Output.Text = TargetText; // make it the set output
@@ -51,27 +123,35 @@ namespace Typing_Tutor
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            //* stack overflow
             if (DonePanel.Visibility == Visibility.Visible)
             {
                 DonePanel.Visibility = Visibility.Hidden;
             }
-            int r = Rand(FileCollection.Items.Count);
-            if (r != RandIgnore) //if this is a new random number
+             int r=0,i =0;
+            while ( r == RandIgnore) //if this is a new random number
             {
-                FormatFile(FileCollection.Items[r].ToString());
-                RandIgnore = r;
+                i++;
+                r= Rand(FileCollection.Items.Count);
+                if(i>100){
+                    break;
+                }
             }
-            else
-            {
-                NextButton_Click(null, null); //redo if repated
-            }
+            FormatFile(FileCollection.Items[r].ToString());
+            RandIgnore = r;
             Output.Text = TargetText;
             Errors = 0;
             CurrentIndex = 0;
             Score.Text = "Right: " + CurrentIndex + "  Errors: " + Errors;
             Timer.Start();
         }
-
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {
+        var Item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
+                        if(Item!=null){
+            FileCollection.Items.Remove(FileCollection.SelectedItem);
+                }
+        }
         private void MainMenu_Click(object sender, RoutedEventArgs e)
         {
             StartButton.Visibility = Visibility.Visible;
@@ -97,7 +177,7 @@ namespace Typing_Tutor
             else {
                 WPM = 0;
             }
-            DoneText.Text = "Grade :  " + Grade + "%   Wpm =" + WPM / Convert.ToDouble((1 + CurrentIndex) / 3);
+            DoneText.Text = "Grade :  " + System.Math.Round(Grade,2) + "%   Wpm =" +  System.Math.Round(WPM / Convert.ToDouble((1 + CurrentIndex) / 3),2);
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -115,9 +195,13 @@ namespace Typing_Tutor
         private void FileSelection(object sender, MouseButtonEventArgs e)
         {
             var Item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
+            if(Item!=null){
+
             FormatFile(Item.Content.ToString());
             Output.Text = TargetText;
             RandIgnore = FileCollection.Items.IndexOf(Item);
+
+            }
         }
 
         private void Custombtn_Click(object sender, RoutedEventArgs e)
@@ -130,6 +214,7 @@ namespace Typing_Tutor
                 Errors = 0;
                 CurrentIndex = 0;
                 FormatFile(openFileDialog.FileName);
+                FileManager.Create(openFileDialog.FileName);
                 Output.Text = TargetText;
                 FileCollection.Items.Add(openFileDialog.FileName);
             }
