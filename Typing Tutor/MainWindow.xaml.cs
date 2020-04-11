@@ -20,6 +20,12 @@ namespace Typing_Tutor
         private static readonly string PD="Resources";
 		private static string PreferancesLocation = $"{PD}/Preferances.txt";
 		private static char DataSeperator = '`';
+
+        public static void Remove(string Name){
+                      File.Delete(PreferancesLocation);
+        
+        }
+
 		public static void Create(params string[] Data)
 		{
             if(!Directory.Exists(PD)){
@@ -76,7 +82,7 @@ namespace Typing_Tutor
                 Add(_Data);
 	        }
 
-			return Data ;
+			return Data;
 		}
 	}
     public partial class MainWindow : Window
@@ -150,6 +156,8 @@ namespace Typing_Tutor
         var Item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
                         if(Item!=null){
             FileCollection.Items.Remove(FileCollection.SelectedItem);
+                Console.WriteLine(FileCollection.SelectedItem.ToString());
+                FileManager.Remove(FileCollection.SelectedItem.ToString());
                 }
         }
         private void MainMenu_Click(object sender, RoutedEventArgs e)
@@ -222,8 +230,7 @@ namespace Typing_Tutor
 
         private void GetTyped(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(TargetText[CurrentIndex]);
-            if (CurrentIndex != TargetText.Length)
+            if ( TargetText !=null && CurrentIndex != TargetText.Length )
             {
                 if (e.Key.ToString() == TargetText[CurrentIndex].ToString().ToUpper())
                 {
@@ -246,7 +253,7 @@ namespace Typing_Tutor
                     }
                 }
             }
-            if (CurrentIndex == TargetText.Length)
+            if (TargetText !=null &&CurrentIndex == TargetText.Length)
             {
                 Done_Click(null, null);
             }

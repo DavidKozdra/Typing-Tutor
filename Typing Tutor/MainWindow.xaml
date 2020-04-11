@@ -23,7 +23,8 @@
         <ScrollViewer Panel.ZIndex="6" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="4" Margin="0,0,22,118">
             <ListBox Background="Gainsboro" x:Name="FileCollection" PreviewMouseDoubleClick="FileSelection" Height="180" Width="334"  />
         </ScrollViewer>
-      <Button Style="{StaticResource Buttons}" Panel.ZIndex="7"  x:Name="Remove" Content="Remove " Click="Remove_Click" Margin="10,232,22.5,76" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="2"/>
+      
+      <Button Style="{StaticResource Buttons}" Panel.ZIndex="6"  x:Name="Remove" Content="Remove " Click="Remove_Click"  Grid.RowSpan="3" Grid.ColumnSpan="1"/>
         <Button Style="{StaticResource Buttons}" Panel.ZIndex="6"  x:Name="Custom" Content="Add " Click="Custombtn_Click" Margin="10,232,22.5,76" RenderTransformOrigin="-0.242,0.357" Grid.ColumnSpan="4"/>
         <Button Style="{StaticResource Buttons}" Panel.ZIndex="6" x:Name="StartButton" Content="Start" Click="StartButton_Click" Margin="10,274,22,5" Grid.ColumnSpan="4"/>
         <TextBox Background="Gainsboro" x:Name="Title" Panel.ZIndex="7" TextAlignment="Center" Text="Typing Tutor" Margin="0,-56,62,345" FontSize="40" Grid.ColumnSpan="2" Grid.Column="2"/>
